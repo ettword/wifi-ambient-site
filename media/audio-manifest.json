@@ -1,0 +1,15 @@
+{
+  "source": "Original internal synth recorder, DemoSource; no live RF or reference album audio",
+  "capture_manifest": "captures/manifest.json",
+  "offset_s": 8,
+  "duration_s": 30,
+  "constant_gain_db": 12,
+  "codec": "Ogg Vorbis, quality 5",
+  "sample_rate_hz": 48000,
+  "channels": 2,
+  "decoded_samples_per_channel": 1440000,
+  "decoded_peak_linear": 0.5371435880661011,
+  "all_samples_finite": true,
+  "sha256": "4bf8cb64881f151497c991056a4e923fba5acc98463e2cec304358fb0576bd9e",
+  "device_note": "ALSA underruns observed; this asset records the internal synth bus, not device loopback."
+}

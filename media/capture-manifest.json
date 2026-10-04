@@ -1,0 +1,50 @@
+{
+  "source": "actual running app; synthetic DemoSource, not live RF",
+  "captured_utc": "2026-10-04T17:54:26.100662+00:00",
+  "source_commit": "37df2329d09812063eea7b1bc62e5319e9f10b33",
+  "working_tree": [
+    "?? LICENSE",
+    "?? tools/capture_showcase.py"
+  ],
+  "binary_sha256": "267e2f88470f2531cc049441aafbf43c0482076aea326b5acfeb8e51253d1b08",
+  "platform": "Linux / WSL2",
+  "terminal": {
+    "columns": 120,
+    "rows": 34,
+    "term": "xterm-256color"
+  },
+  "command": "wifi-ambient --demo",
+  "radio_access": false,
+  "captures": [
+    {
+      "file": "overview.ans",
+      "caption": "Demo: overview of the simulated wireless field",
+      "elapsed_s": 8.82,
+      "sha256": "d646e800a54d3ecbc9a2f767098626a01c846a44399a890ee76486243cc99fd7"
+    },
+    {
+      "file": "focus.ans",
+      "caption": "Demo: exploring a single simulated network",
+      "elapsed_s": 10.43,
+      "sha256": "c85c91f6b4d76ebdc1fa1a968f0a3ab2a523d2a725b37cafb4738f7e2d9308dc"
+    },
+    {
+      "file": "mix-lab.ans",
+      "caption": "Demo: the nine-channel Mix Lab",
+      "elapsed_s": 11.24,
+      "sha256": "42b22cc70d40c62d8b39192801b49bb638b050cf13390cc89382375070808158"
+    },
+    {
+      "file": "help.ans",
+      "caption": "Demo: contextual map controls",
+      "elapsed_s": 12.86,
+      "sha256": "92d3a114384fab0dd24382bea4de89e47e9a4b690fce053ad94249f4d8e17ce4"
+    }
+  ],
+  "audio": {
+    "original_file": "out/showcase/demo-original.wav",
+    "sha256": "2fdb46baa9210288ef108142834b35e79f20ba1e45d7b8aa6b65dee7d684848f",
+    "exit_code": 0,
+    "note": "Original synth output; no reference music or third-party recording."
+  }
+}
