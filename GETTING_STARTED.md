@@ -29,6 +29,25 @@ For visual exploration without an audio device:
 cargo run --locked --release -- --demo --dry-run
 ```
 
+## Ordinary WiFi: start here on another PC
+
+```powershell
+cargo run --locked --release -- --check-wifi
+cargo run --locked --release
+```
+
+The default source is **scan**, not a simulated demo. It auto-detects a WiFi adapter and opens an overview of nearby networks; press `n` to focus a presence, arrows to move, `Tab` to shape the mix, `m` to change source and `q` to quit. `--demo` remains an explicit, offline alternative. `--dry-run` opens the interface without audio.
+
+Windows: turn WiFi on and allow WiFi/location access if Windows requests it. If access is denied, the startup error points to Settings > Privacy & security > Location. No Npcap, USB radio, WSL or monitor driver is required. Windows adapter selection uses its description with `--interface`; the default is `auto`.
+
+Linux: install `iw`, keep the adapter in managed mode and select it with `--interface wlan0` if automatic detection chooses the wrong device. `iw scan` may require administrator-granted scan permission. The application reports permission/busy failures in its scan HUD; it does not fake a quiet room. WSL does not expose the Windows integrated adapter: run the native Windows binary instead.
+
+What shapes the music: network identity, actual signal strength and its slow variation, plus your focus and the composer. OS observations are separated from captured packets: no client count, bandwidth, burst or packet-pulse activity is invented. A failed scan means unknown; a successful empty scan ages old presences out after the existing 30-second memory window. The OS may cache or throttle scan results, especially on Windows; reported scan time is collection time, not a measured RF event timestamp. A fixed four-second wait after requesting a Windows scan does not guarantee fresh data.
+
+On an unsupported platform or without usable WiFi, use `--demo`; there is no silent fallback from real WiFi to simulated networks.
+
+Sources: [Microsoft Native WiFi BSS list](https://learn.microsoft.com/en-us/windows/win32/api/wlanapi/nf-wlanapi-wlangetnetworkbsslist), [Windows WiFi/location access](https://learn.microsoft.com/en-us/windows/win32/nativewifi/wi-fi-access-location-changes).
+
 ## Linux monitor capture
 
 Use a separate monitor-capable WiFi adapter. The hardware tested in this project is the 2.4 GHz Atheros AR9271, with the scheduler visiting channels 1–11. Support for other hardware and channel sets is not established by those tests.
@@ -46,7 +65,7 @@ sudo ip link set wlan1 down
 sudo iw dev wlan1 set type monitor
 sudo ip link set wlan1 up
 sudo setcap cap_net_raw,cap_net_admin+ep target/release/wifi-ambient
-./target/release/wifi-ambient --interface wlan1
+./target/release/wifi-ambient --monitor --interface wlan1
 ```
 
 Capabilities must be set again after rebuilding. The Linux launcher can diagnose the environment with `./launch.sh check` and start it with `./launch.sh monitor wlan1`.
@@ -55,7 +74,7 @@ The default adaptive policy requests channel changes to keep coverage while givi
 
 ## Windows with WSL2 and USB radio
 
-The native Windows build is for demo/replay. Real capture runs inside Linux. Attach a compatible USB adapter to WSL2 using [usbipd-win](https://github.com/dorssel/usbipd-win), then follow the Linux instructions in a Linux checkout. `iw dev` must show the adapter before capture can work. Keep the WSL instance running throughout a hardware session; the project's measured sessions encountered USB loss when WSL shut down.
+Native Windows now reads nearby networks, names, BSSIDs, real RSSI and frequency through Native WiFi without monitor mode. Raw frame capture still runs inside Linux. Attach a compatible USB adapter to WSL2 using [usbipd-win](https://github.com/dorssel/usbipd-win), then follow the Linux instructions in a Linux checkout. `iw dev` must show the adapter before capture can work. Keep the WSL instance running throughout a hardware session; the project's measured sessions encountered USB loss when WSL shut down.
 
 `setup_wsl2.sh` is a convenience script that installs packages, finds the first adapter, changes its mode and builds the capture binary. Read it before running; manual setup above gives you control over the selected adapter. The Windows launchers currently describe the maintainer's local environment and are not the portable quick start.
 
@@ -67,7 +86,7 @@ Scan uses a normal managed-mode interface and discovers networks periodically. I
 ./target/release/wifi-ambient --scan --interface wlan1
 ```
 
-Monitor and Scan require the Linux `wifi` build. The TUI `m` key requests a mode change; unavailable modes may report an error rather than start.
+Scan is now the default on Windows and Linux and does not require the `wifi` feature or pcap. Windows uses Native WiFi; Linux uses `iw` and may require CAP_NET_ADMIN for scanning. Monitor is selected explicitly with `--monitor` and requires Linux + `wifi`. The TUI `m` key cycles available source modes; Windows cycles scan/demo. No normal scan takes a connected interface down.
 
 ## Record your own audio
 
@@ -90,7 +109,7 @@ Exit with `q` to finalize the WAV. `--dry-run` has no audio engine and therefore
 ## Capture events and replay
 
 ```bash
-WIFI_AMBIENT_EVENT_LOG=out/events.tsv ./target/release/wifi-ambient --interface wlan1
+WIFI_AMBIENT_EVENT_LOG=out/events.tsv ./target/release/wifi-ambient --monitor --interface wlan1
 ./target/release/wifi-ambient --replay out/events.tsv
 ```
 
