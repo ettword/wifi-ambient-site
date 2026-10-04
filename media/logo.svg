@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-labelledby="title desc">
+  <title id="title">WiFi Ambient Synth</title>
+  <desc id="desc">A listening point in an open orbit, with three surrounding presences.</desc>
+  <g fill="none" stroke="#75e4d1" stroke-width="3">
+    <path d="M128 82a49 49 0 1 1-35-47"/>
+    <path d="M108 83a29 29 0 1 1-22-29" opacity=".45"/>
+  </g>
+  <path d="M80 61v38M61 80h38" stroke="#f2efe6" stroke-width="2"/>
+  <circle cx="80" cy="80" r="7" fill="#75e4d1"/>
+  <circle cx="117" cy="40" r="5" fill="#f39b73"/>
+  <circle cx="136" cy="65" r="3" fill="#f2efe6"/>
+  <circle cx="108" cy="126" r="3" fill="#f2efe6"/>
+</svg>
